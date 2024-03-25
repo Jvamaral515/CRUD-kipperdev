@@ -40,11 +40,9 @@ public class ProductController {
         return ResponseEntity.created(uri).body(dto);
     }
 
-    /*@PutMapping
-    public ResponseEntity update(@RequestBody @Valid ProductDto dto){
-        Product product = repository.getReferenceById(dto.id());
-        product.setName(dto.name());
-        product.setPrice_in_cents(dto.price_in_cents());
-        return ResponseEntity.ok(product);
-    }*/
+    @PutMapping(value = "/{id}")
+    public ResponseEntity update(@PathVariable String id, @RequestBody @Valid ProductDto dto){
+        dto = service.upddate(id, dto);
+        return ResponseEntity.ok(dto);
+    }
 }

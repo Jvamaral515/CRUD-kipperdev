@@ -37,6 +37,13 @@ public class ProductService {
         return new ProductDto(entity);
     }
 
+    public ProductDto upddate (String id, ProductDto dto){
+        Product entity = repository.getReferenceById(id);
+        copyDtoToEntity(dto, entity);
+        entity = repository.save(entity);
+        return new ProductDto(entity);
+    }
+
     private void copyDtoToEntity(ProductDto dto, Product entity) {
         entity.setName(dto.getName());
         entity.setPrice_in_cents(dto.getPrice_in_cents());
