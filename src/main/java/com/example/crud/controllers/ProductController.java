@@ -1,8 +1,8 @@
 package com.example.crud.controllers;
 
 import com.example.crud.domain.product.Product;
-import com.example.crud.domain.product.ProductRepository;
-import com.example.crud.domain.product.ProductDto;
+import com.example.crud.repositories.ProductRepository;
+import com.example.crud.dto.ProductDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

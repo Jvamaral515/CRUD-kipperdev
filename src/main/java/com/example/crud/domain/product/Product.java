@@ -1,5 +1,6 @@
 package com.example.crud.domain.product;
 
+import com.example.crud.dto.ProductDto;
 import jakarta.persistence.*;
 import lombok.*;
 
