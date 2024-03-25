@@ -28,4 +28,17 @@ public class ProductService {
         Page<Product> result = repository.findAll(pageable);
         return result.map(x -> new ProductDto(x));
     }
+
+    @Transactional
+    public ProductDto insert (ProductDto dto){
+        Product entity = new Product();
+        copyDtoToEntity(dto, entity);
+        entity = repository.save(entity);
+        return new ProductDto(entity);
+    }
+
+    private void copyDtoToEntity(ProductDto dto, Product entity) {
+        entity.setName(dto.getName());
+        entity.setPrice_in_cents(dto.getPrice_in_cents());
+    }
 }

@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping (value = "/products")
@@ -30,16 +33,15 @@ public class ProductController {
        return ResponseEntity.ok(dto);
     }
 
-    /*@PostMapping
-    public ResponseEntity registerProduct(@RequestBody @Valid ProductDto dto){
-        Product p = new Product(dto);
-        System.out.println(dto);
-        repository.save(p);
-        return ResponseEntity.ok().build();
+    @PostMapping
+    public ResponseEntity insert(@RequestBody @Valid ProductDto dto){
+        dto = service.insert(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+        return ResponseEntity.created(uri).body(dto);
     }
 
-    @PutMapping
-    public ResponseEntity updateProduct(@RequestBody @Valid ProductDto dto){
+    /*@PutMapping
+    public ResponseEntity update(@RequestBody @Valid ProductDto dto){
         Product product = repository.getReferenceById(dto.id());
         product.setName(dto.name());
         product.setPrice_in_cents(dto.price_in_cents());
