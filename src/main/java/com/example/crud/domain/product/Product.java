@@ -16,5 +16,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String name;
-    private Number priceInCents;
+    private Integer price_in_cents;
+
+    public Product(ProductDto dto){
+        this.name = dto.name();
+        this.price_in_cents = dto.price_in_cents();
+    }
 }
