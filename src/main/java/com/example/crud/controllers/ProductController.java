@@ -3,6 +3,7 @@ package com.example.crud.controllers;
 import com.example.crud.domain.product.Product;
 import com.example.crud.repositories.ProductRepository;
 import com.example.crud.dto.ProductDto;
+import com.example.crud.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,15 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
 
     @Autowired
-    private ProductRepository repository;
+    private ProductService service;
 
-    @GetMapping
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ProductDto> findById(@PathVariable String id){
+        ProductDto dto = service.findById(id);
+        return ResponseEntity.ok(dto);
+    }
+
+    /*@GetMapping
     public ResponseEntity findAll(){
         var allProducts = repository.findAll();
        return ResponseEntity.ok(allProducts);
@@ -35,5 +42,5 @@ public class ProductController {
         product.setName(dto.name());
         product.setPrice_in_cents(dto.price_in_cents());
         return ResponseEntity.ok(product);
-    }
+    }*/
 }

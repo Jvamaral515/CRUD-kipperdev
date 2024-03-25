@@ -18,9 +18,4 @@ public class Product {
     private String id;
     private String name;
     private Integer price_in_cents;
-
-    public Product(ProductDto dto){
-        this.name = dto.name();
-        this.price_in_cents = dto.price_in_cents();
-    }
 }
