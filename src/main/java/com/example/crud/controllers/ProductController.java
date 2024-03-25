@@ -6,6 +6,8 @@ import com.example.crud.dto.ProductDto;
 import com.example.crud.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +24,13 @@ public class ProductController {
         return ResponseEntity.ok(dto);
     }
 
-    /*@GetMapping
-    public ResponseEntity findAll(){
-        var allProducts = repository.findAll();
-       return ResponseEntity.ok(allProducts);
+    @GetMapping
+    public ResponseEntity<Page<ProductDto>> findAll(Pageable pageable){
+        Page<ProductDto> dto = service.findAll(pageable);
+       return ResponseEntity.ok(dto);
     }
 
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity registerProduct(@RequestBody @Valid ProductDto dto){
         Product p = new Product(dto);
         System.out.println(dto);
