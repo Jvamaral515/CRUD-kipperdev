@@ -3,7 +3,11 @@ package com.example.crud.services;
 import com.example.crud.domain.product.Product;
 import com.example.crud.dto.ProductDto;
 import com.example.crud.repositories.ProductRepository;
+import com.example.crud.services.exceptions.DatabaseException;
+import com.example.crud.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,8 +23,8 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDto findById(String id){
-        Optional<Product> product = repository.findById(id);
-        return new ProductDto(product.get());
+        Product product = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
+        return new ProductDto(product);
     }
 
     @Transactional(readOnly = true)
@@ -39,17 +43,30 @@ public class ProductService {
 
     @Transactional
     public ProductDto  upddate (String id, ProductDto dto){
-        Product entity = repository.getReferenceById(id);
-        copyDtoToEntity(dto, entity);
-        entity = repository.save(entity);
-        return new ProductDto(entity);
+        try {
+            Product entity = repository.getReferenceById(id);
+            copyDtoToEntity(dto, entity);
+            entity = repository.save(entity);
+            return new ProductDto(entity);
+        }
+        catch(EntityNotFoundException e){
+            throw new ResourceNotFoundException("Recuso não encontrado");
+        }
     }
 
     @Transactional
     public void delete(String id){
-        Optional<Product> result = repository.findById(id);
-        Product product = result.get();
-        product.setActive(false);
+        if(!repository.existsById(id)){
+            throw new ResourceNotFoundException("Recuso não encontrado");
+        }
+        try {
+            Optional<Product> result = repository.findById(id);
+            Product product = result.get();
+            product.setActive(false);
+        }
+        catch(DataIntegrityViolationException e){
+            throw new DatabaseException ("Falha da integridade referencial");
+        }
     }
 
     private void copyDtoToEntity(ProductDto dto, Product entity) {
