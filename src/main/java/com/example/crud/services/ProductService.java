@@ -37,11 +37,17 @@ public class ProductService {
         return new ProductDto(entity);
     }
 
-    public ProductDto upddate (String id, ProductDto dto){
+    @Transactional
+    public ProductDto  upddate (String id, ProductDto dto){
         Product entity = repository.getReferenceById(id);
         copyDtoToEntity(dto, entity);
         entity = repository.save(entity);
         return new ProductDto(entity);
+    }
+
+    @Transactional
+    public void delete(String id){
+        repository.deleteById(id);
     }
 
     private void copyDtoToEntity(ProductDto dto, Product entity) {
