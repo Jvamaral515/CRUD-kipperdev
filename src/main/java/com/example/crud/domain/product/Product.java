@@ -18,4 +18,5 @@ public class Product {
     private String id;
     private String name;
     private Integer price_in_cents;
+    private Boolean active;
 }

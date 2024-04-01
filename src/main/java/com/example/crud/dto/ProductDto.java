@@ -13,10 +13,13 @@ public class ProductDto {
         @NotNull
         private Integer price_in_cents;
 
-        public ProductDto(String id, String name, Integer price_in_cents){
+        private Boolean active;
+
+        public ProductDto(String id, String name, Integer price_in_cents, Boolean active){
                 this.id = id;
                 this.name = name;
                 this.price_in_cents = price_in_cents;
+                this.active = true;
         }
 
 
@@ -24,6 +27,7 @@ public class ProductDto {
                 id = product.getId();
                 name = product.getName();
                 price_in_cents = product.getPrice_in_cents();
+                active = true;
         }
 
         public String getId() {
@@ -36,5 +40,9 @@ public class ProductDto {
 
         public Integer getPrice_in_cents() {
                 return price_in_cents;
+        }
+
+        public Boolean getActive() {
+                return active;
         }
 }
