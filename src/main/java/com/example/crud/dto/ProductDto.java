@@ -27,7 +27,7 @@ public class ProductDto {
                 id = product.getId();
                 name = product.getName();
                 price_in_cents = product.getPrice_in_cents();
-                active = true;
+                active = product.getActive();
         }
 
         public String getId() {

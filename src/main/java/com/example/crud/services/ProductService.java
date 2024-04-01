@@ -25,7 +25,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Page<ProductDto> findAll(Pageable pageable){
-        Page<Product> result = repository.findAll(pageable);
+        Page<Product> result = repository.findAllByActiveTrue(pageable);
         return result.map(x -> new ProductDto(x));
     }
 
@@ -47,11 +47,14 @@ public class ProductService {
 
     @Transactional
     public void delete(String id){
-        repository.deleteById(id);
+        Optional<Product> result = repository.findById(id);
+        Product product = result.get();
+        product.setActive(false);
     }
 
     private void copyDtoToEntity(ProductDto dto, Product entity) {
         entity.setName(dto.getName());
         entity.setPrice_in_cents(dto.getPrice_in_cents());
+        entity.setActive(dto.getActive());
     }
 }
